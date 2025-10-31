@@ -1,0 +1,57 @@
+import naves.*
+
+test "Tranquilidad en nave baliza con baliza roja" {
+  const naveB = new NaveBaliza(velocidad = 300, direccion = 0, combustible = 5000)
+  assert.notThat(naveB.estaTranquila()) // colorBaliza = "rojo"
+}
+
+test "Tranquilidad en nave baliza con baliza verde" {
+  const naveB = new NaveBaliza(velocidad = 300, direccion = 0, combustible = 5000)
+  naveB.cambiarColorDeBaliza("verde")
+  assert.equals(naveB.estaTranquila(), true)
+}
+
+test "Relajo en nave baliza sin cambios de color" {
+  const naveB = new NaveBaliza(velocidad = 300, direccion = 0, combustible = 5000)
+  assert.equals(naveB.estaDeRelajo(), false)
+}
+
+test "Verificar condición de relajo en nave baliza" {
+  const naveB = new NaveBaliza(velocidad = 8000, combustible = 5000, direccion = 3)
+  assert.equals(naveB.condicionDeRelajo(), true)
+  naveB.cambiarColorDeBaliza("azul")
+  assert.equals(naveB.condicionDeRelajo(), false)
+}
+test "Preparar viaje en nave de pasajeros" {
+  const naveP = new NaveDePasajeros(cantidadPasajeros = 3, combustible = 5000, direccion = 0, velocidad = 20000, racionesDeComida = 6, racionesDeBebida = 9)
+  naveP.prepararViaje()
+    assert.equals(naveP.combustible(), 35000)
+}
+
+test "Reacción ante amenaza en nave de pasajeros" {
+  const naveP = new NaveDePasajeros(cantidadPasajeros = 2, racionesDeComida = 10, racionesDeBebida = 10, direccion = 0, velocidad = 20000, combustible = 5000)
+  naveP.agregarRacionesDeComida(10)
+  naveP.agregarRacionesDeBebida(10)
+  naveP.recibirAmenaza()
+  assert.equals(19, naveP.racionesDeComida())
+  assert.equals(18, naveP.racionesDeBebida())   
+}
+test "Verificar condición de relajo en nave de pasajeros" {
+  const naveP = new NaveDePasajeros(cantidadPasajeros = 5, racionesDeComida = 40, racionesDeBebida = 50, direccion = 0, velocidad = 20000, combustible = 5000)
+  assert.equals(naveP.condicionDeRelajo(), true)
+  naveP.entregarInsumoAnteAmenaza()
+  assert.equals(naveP.condicionDeRelajo(), true)
+}
+test "Verificar raciones en nave de pasajeros" {
+  const naveP = new NaveDePasajeros(cantidadPasajeros = 4, racionesDeComida = 20, racionesDeBebida = 30, direccion = 0, velocidad = 20000, combustible = 5000)
+  assert.equals(naveP.racionesDeComida(), 20)
+  assert.equals(naveP.racionesDeBebida(), 30)
+}
+test "Verificar cambios de color en nave baliza" {
+  const naveB = new NaveBaliza(velocidad = 300, direccion = 0, combustible = 5000)
+  assert.equals(naveB.colorBalizaActual(), "rojo")
+  naveB.cambiarColorDeBaliza("azul")
+  assert.equals(naveB.colorBalizaActual(), "azul")
+  naveB.cambiarColorDeBaliza("verde")
+  assert.equals(naveB.colorBalizaActual(), "verde")
+}
